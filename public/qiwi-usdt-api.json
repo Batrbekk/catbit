@@ -1,0 +1,223 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Catbit.io QIWI-USDTTRC20 Exchange API",
+    "description": "API обмена по направлению QIWI-USDTTRC20\n\nДля получения токена авторизации - нужно обратиться к руководству Catbit.io",
+    "version": "0.1.00"
+  },
+  "servers": [
+    {
+      "url": "https://catbit.io/api/apiv1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "order",
+      "description": "Создание и получение статуса заявок"
+    }
+  ],
+  "paths": {
+    "/private/order": {
+      "post": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Создать заявку",
+        "description": "Создать заявку на обмен",
+        "operationId": "createOrder",
+        "requestBody": {
+          "description": "Создать завку",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Order"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Заявка успешно создана",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResp"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ошибка при создании заявки"
+          }
+        }
+      }
+    },
+    "/private/rates": {
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Обменный курс",
+        "description": "Получить обменный курс на текущий момент",
+        "operationId": "getRates",
+        "responses": {
+          "200": {
+            "description": "Успешная операция",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RatesResp"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ошибка при запросе"
+          }
+        }
+      }
+    },
+    "/private/order/{id}": {
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Информация о заявке",
+        "description": "Получить информацию о текущем статусе заявки. id - из ответа при создании заявки\n\nstatus:\n\n0 - ожидание средств\n\n1 - в обработке\n\n2 - подтверждено\n\n3 - отклонено\n\n4 - отменено",
+        "operationId": "getOrderStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID заявки",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "sdfsfasdfsdfsdf"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Операция успешна",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OrderResp"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ошибка при запросе"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Order": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "string",
+            "example": "QWRUB"
+          },
+          "to": {
+            "type": "string",
+            "example": "USDTTRC"
+          },
+          "fromAmount": {
+            "type": "integer",
+            "format": "int32",
+            "example": 10000
+          },
+          "phone": {
+            "type": "string",
+            "example": "+79998887755"
+          }
+        },
+        "xml": {
+          "name": "order"
+        }
+      },
+      "OrderInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "sdfsfasdfsdfsdf"
+          },
+          "from": {
+            "type": "string",
+            "example": "QWRUB"
+          },
+          "to": {
+            "type": "string",
+            "example": "USDTTRC"
+          },
+          "fromAmount": {
+            "type": "integer",
+            "format": "int32",
+            "example": 100000
+          },
+          "toAmount": {
+            "type": "number",
+            "example": 1170.12008
+          },
+          "status": {
+            "type": "number",
+            "example": 0
+          },
+          "paymentUrl": {
+            "type": "string",
+            "example": "https://urltopay.com/payment/qiwi?billId=1111111",
+            "description": "Адрес инвойса для оплаты"
+          }
+        }
+      },
+      "OrderResp": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "example": true
+          },
+          "result": {
+            "$ref": "#/components/schemas/OrderInfo"
+          }
+        }
+      },
+      "RatesResp": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "example": true
+          },
+          "result": {
+            "type": "object",
+            "properties": {
+              "rate": {
+                "type": "number",
+                "example": 78
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "authorization-token": {
+        "type": "apiKey",
+        "name": "authorization-token",
+        "in": "header"
+      }
+    }
+  }
+}

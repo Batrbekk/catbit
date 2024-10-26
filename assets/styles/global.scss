@@ -1,0 +1,9 @@
+@media screen and (max-width: 940px) {
+  .layout-content {
+    margin-top: 55px;
+  }
+
+  .page::before {
+    display: none;
+  }
+}

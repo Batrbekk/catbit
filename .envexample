@@ -1,0 +1,2 @@
+NUXT_PUBLIC_DEVAPIURL=http://localhost:3000
+NUXT_PUBLIC_PRODAPIURL=https://next.catbit.io
