@@ -93,7 +93,7 @@ const updateTransaction = async () => {
                   ref="uploadedImgPreview"
                   id="imagePreview"
                   class="b-upload__preview-pic"
-                  src="~/assets/img/common/logo.png"
+                  src="/img/icons/logo.png"
                   alt=""
                   style="object-fit: contain"
                 />

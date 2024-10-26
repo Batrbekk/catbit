@@ -20,7 +20,7 @@ orderId.value = null;
               <img
                 width="280"
                 class="img-fluid"
-                src="~/assets/img/common/logo.png"
+                src="/img/icons/logo.png"
                 alt="CATBIT"
               />
             </div>
